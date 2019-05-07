@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+
+ {%block content%}
+
+  <table class="col-md-3">
+            <table class="table">
+  <thead>
+    <tr>
+        <th scope="col">Действие</th>
+        <th scope="col">ЮР лицо</th>
+        <th scope="col">#</th>
+        <th>Продавец</th>
+        <th>Закупшик</th>
+        <th>Название клиента</th>
+        <th>№ заявки</th>
+        <th>Дата заявки с клиентом</th>
+        <th>Место загрузки</th>
+        <th>Характер груза</th>
+        <th>Место выгрузки</th>
+        <th>Дата выгрузки</th>
+        <th>Перевозчик</th>
+        <th>Номер счета от поставщика</th>
+        <th>Дата счета от Постащика</th>
+        <th>Сумма счета от Постащика</th>
+        <th>Размер НДС</th>
+        <th>Валюта счета</th>
+        <th>Размер предоплаты</th>
+        <th>Кост для нас</th>
+
+
+
+
+
+
+
+
+
+    </tr>
+
+  </thead>
+{%for fin in finance%}
+                <tbody>
+
+                <td>{{fin.id}}</td>
+                <td>{{fin.tora_red}}</td>
+                <td>{{fin.direction}}</td>
+                <td>{{fin.sale}}</td>
+                <td>{{fin.buyer}}</td>
+                <td>{{fin.customer_name}}</td>
+                <td>{{fin.customer_order_number}}</td>
+                <td>{{fin.customer_order_date}}</td>
+                <td>{{fin.loading_place}}</td>
+                <td>{{fin.cargo_character}}</td>
+                <td>{{fin.unloading_place}}</td>
+                <td>{{fin.unloading_date}}</td>
+                <td>{{fin.supplier_name}}</td>
+                <td>{{fin.s_invoice_number}}</td>
+                <td>{{fin.s_inv_date}}</td>
+                <td>{{fin.s_inv_amount}}</td>
+                <td>{{fin.s_inv_vat}}</td>
+                <td>{{fin.s_inv_currency}}</td>
+                <td>{{fin.s_prepaid_amount}}</td>
+                <td>{{fin.cost_with_vat}}</td>
+
+
+
+
+
+
+
+
+                </tbody>
+
+ {%endfor%}
+
+{%endblock%}
+
+</body>
+</html>
