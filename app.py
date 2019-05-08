@@ -1,7 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from config import Config
+from flask_migrate import Migrate
 
 import pymysql
 from datetime import datetime
@@ -9,19 +10,19 @@ from datetime import datetime
 app = Flask(__name__)
 db = SQLAlchemy(app)
 bootstrap = Bootstrap(app)
+migrate = Migrate(app, db)
+
 
 # app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Pangolin2208@localhost:8537/fin_test_1'
 app.config.from_object(Config)
 
 @app.route('/')
 def index():
-    finance = Finance.query.all()
+    finance = Main.query.all()
     return render_template('index.html', finance=finance)
 
-class Finance(db.Model):
 
-    __tablename__ = "main"
-
+class Main(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tora_red = db.Column(db.String(120))
     direction = db.Column(db.String(120))
@@ -51,7 +52,7 @@ class Finance(db.Model):
     cost_we_still_need_pay = db.Column(db.Integer)
     s_inv_status_payment = db.Column(db.String(120))
     s_inv_credit_terms = db.Column(db.Integer)
-    s_credit_terms_scan_org = db.Column(db.String)
+    s_credit_terms_scan_org = db.Column(db.String(120))
     s_inv_pay_intill_data = db.Column(db.DateTime)
     s_inv_was_payment = db.Column(db.String(120)) # ЗНАЧ!!!
     s_inv_act_date_payment = db.Column(db.DateTime)
@@ -98,6 +99,54 @@ class Finance(db.Model):
     s_inv_part_payment_36wk_2019 = db.Column(db.Integer)
     s_inv_part_payment_37wk_20119 = db.Column(db.Integer)
     s_inv_part_payment_38wk_2019 = db.Column(db.Integer)
+    posts = db.relationship('Post', backref='fin')
+    user = db.relationship('User', backref='user')
+
+#exi
+#
+#
+#
+
+class Post(db.Model):
+
+    __tablename__='post'
+
+    id = db.Column(db.Integer, primary_key=True)
+    post = db.Column(db.Text)
+    fin_id = db.Column(db.Integer, db.ForeignKey('main.id'))
+
+
+class User(db.Model):
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(120))
+    fin_id = db.Column(db.Integer, db.ForeignKey('main.id'))
+
+    def __repr__(self):
+        return '<User {}>'.format(self.name)
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return{
+        'db':db,
+        'User':User,
+        'Post':Post,
+        'Main':Main,
+    }
+
+@app.route('/process', methods=['POST'])
+def process():
+    name = request.form['name']
+    print(name)
+    if name:
+        new = Main(customer_name=name)
+        db.session.add(new)
+        db.session.commit()
+        return jsonify({'name': new.id})
+    return jsonify({'error':'Missing data'})
+
+
 
 
 

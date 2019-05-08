@@ -3,20 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <script src = "{{url_for('static', filename='app.js')}}"></script>
 </head>
 <body>
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf%}
 
  {%block content%}
+<form action="POST">
+    <input type="text" name="customer", placeholder="название клиента" id="name">
+    <button type="submit">Записать данные</button>
+</form>
 
-  <table class="col-md-3">
+<div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+	<div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+
+<table class="col-md-3">
             <table class="table">
+
   <thead>
     <tr>
-        <th scope="col">Действие</th>
-        <th scope="col">ЮР лицо</th>
-        <th scope="col">#</th>
+        <th >Действие</th>
+        <th>#</th>
+        <th>Юр лицо</th>
+        <th >Направление</th>
         <th>Продавец</th>
         <th>Закупшик</th>
         <th>Название клиента</th>
@@ -35,20 +49,13 @@
         <th>Размер предоплаты</th>
         <th>Кост для нас</th>
 
-
-
-
-
-
-
-
-
     </tr>
 
   </thead>
 {%for fin in finance%}
                 <tbody>
 
+                <td><button>Подробнее</button></td>
                 <td>{{fin.id}}</td>
                 <td>{{fin.tora_red}}</td>
                 <td>{{fin.direction}}</td>
