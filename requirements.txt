@@ -12,6 +12,6 @@ pypiwin32==223
 pywin32==224
 requests==2.21.0
 six==1.12.0
-urllib3==1.24.3
+urllib3==1.26.5
 websocket-client==0.56.0
 Werkzeug==0.15.2
